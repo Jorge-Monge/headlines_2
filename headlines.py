@@ -12,7 +12,10 @@ RSS_FEEDS = {"bbc": {"name": "BBC News", "url": "http://feeds.bbci.co.uk/news/rs
 @app.route("/<publication>")
 
 def get_news(publication="bbc"):
-    feed = feedparser.parse(RSS_FEEDS.get(publication).get("url"))
+    if not publication in RSS_FEEDS.iterkeys():
+        publication = "bbc"
+    url = RSS_FEEDS.get(publication).get("url")
+    feed = feedparser.parse(url)
     first_article = feed['entries'][0]
     page = u"""<html>
       <body>
